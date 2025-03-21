@@ -19,7 +19,7 @@ async function cargarDatos() {
             cell_title.textContent = item.title_;
 
             const cell_copy = row.insertCell(2);
-            cell_copy.classList.add('copys-styles');
+            cell_copy.classList.add('copyS-styles');
             cell_copy.textContent = item.copy;
             cell_copy.style.whiteSpace = "pre-wrap";
 
@@ -34,7 +34,6 @@ async function cargarDatos() {
                             cell_copy.classList.remove('copied');
                         }, 600);
                     })
-                    .catch(err => console.error("Error al copiar el texto: ", err));
             });
         });
 
