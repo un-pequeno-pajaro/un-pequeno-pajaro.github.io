@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link type="image/png" rel="icon" href="media/potsa.png">
+    <meta property="theme-color" content="#b0865d">
+    <meta property="og:title" content="Potsa">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/potsa/media/potsa.png">
+
+	<title>Potsa</title>
+<style type="text/css">
+	html {
+		height: 100%;
+		overflow-y:hidden;
+	}
+	body {
+		height: 100%;
+		margin: 0;
+		background-image: url(media/potsa.png);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		animation: bg_move 20s linear infinite;
+
+		cursor: pointer;
+	}
+
+@keyframes bg_move {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -100% -100%;
+  }
+}
+
+	#frame {
+		z-index: 9999;
+		background-image: url(media/tvframe.png);
+		height: 100%;
+		width: 100%;
+		bottom: 0;
+
+		background-repeat: round;
+		background-size: cover;
+		position: absolute;
+	}
+	#static-ov {
+		z-index: 9998;
+		position: absolute;
+		opacity: 20%;
+		background-image: url(media/gif/static.gif);
+		height: 100%;
+		width: 100%;
+		bottom: 0;
+		background-repeat: round;
+		background-size: cover;
+		position: absolute;
+	}
+	main {
+		z-index: 9997;
+		padding-left: 5%;
+		padding-right: 5%;
+		padding-top: 4%;
+		padding-bottom: 4%;
+	}
+
+</style>
+</head>
+<body onclick="uneteanosotros()">
+<div id="frame"></div>
+<div id="static-ov"></div>
+<main>
+	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop volume="50%"></audio>
+</main>
+
+<script type="text/javascript">
+var audio0 = document.getElementById("audio0");
+var audio1 = document.getElementById("audio1");
+var html = document.documentElement;
+var potsa_triggered = false;
+
+function uneteanosotros() {
+	if (potsa_triggered == false) {
+
+		audio0.play();
+		html.style.filter = "contrast(200%)";
+
+		potsa_triggered = true;
+	} else if (potsa_triggered == true) {
+
+		audio0.pause();
+		audio0.currentTime = 0;
+		html.style.filter = "contrast(100%)";
+
+		potsa_triggered = false;
+	}
+}
+
+</script>
+
+</body>
+</html>
