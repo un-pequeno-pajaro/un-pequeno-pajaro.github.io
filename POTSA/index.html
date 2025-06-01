@@ -9,7 +9,7 @@
     <meta property="og:site_name" content="Potsa">
     <meta property="og:title" content="POTSA">
     <meta property="og:description" content="Dios Patria y Potsa">
-    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god_x4.png">
+    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god_x2.png">
 	<title>POTSA</title>
 
 <style type="text/css">
@@ -100,6 +100,18 @@ function uneteanosotros() {
 		potsa_triggered = false;
 	}
 }
+
+document.addEventListener('keyup', event => {
+  if (event.code === 'Space') {
+    uneteanosotros();
+  }
+});
+
+document.addEventListener('keyup', event => {
+  if (event.code === 'Enter') {
+    uneteanosotros();
+  }
+});
 
 </script>
 
