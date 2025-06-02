@@ -65,7 +65,7 @@ function potsa_trigger() {
 		body.style.backgroundImage = "url('media/potsa_fly.gif')"
 		body.style.cursor = 'inherit';
 		html.style.filter = "contrast(200%)";
-		document.getElementById('potsa_say').style.opacity = '40%';
+		document.getElementById('potsa_say').style.opacity = '50%';
 
 		music0.play();
 
