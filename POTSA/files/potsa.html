@@ -7,26 +7,27 @@
 	<title>Potsa</title>
 <style>
 
-	html {
-		height: 100%;
+html, body {
+    height: 130%;
+    margin: 0;
+}
+
+	body {
 		margin: 0;
 		background-image: url(../media/potsa.png);
 		background-repeat: repeat;
-		animation: bg_move 20s linear infinite;
-	}
-	body {
-		height: 100%;
-		background-size: 100% 100%;
-		margin: 0;
-		background-color: rgba(0, 0, 0, 0.8);
+
+		animation: bg_move 200s linear infinite;
+
+		backdrop-filter: brightness(0.3) blur(5px);
 	}
 
 @keyframes bg_move {
   0% {
-    background-position: 0% 0%;
+    background-position: 0px 0px;
   }
   100% {
-    background-position: -100% -100%;
+    background-position: -10000px -10000px;
   }
 }
 
@@ -37,6 +38,8 @@
 </style>
 </head>
 <body>
+<div id="images">
+
 	<img src="../media/dpyPotsa.gif">
 	<img src="../media/potsa_god.png">
 	<img src="../media/potsa.png">
@@ -52,6 +55,6 @@
 	<img src="../media/potsa_free.png">
 	<img src="../media/potsa_off.png">
 
-
+</div>
 </body>
 </html>
