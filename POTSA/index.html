@@ -5,13 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link type="image/png" rel="icon" href="media/potsa.png">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 
-    <meta property="theme-color" content="#b0865d">
-    <meta property="og:site_name" content="Potsa">
-    <meta property="og:title" content="POTSA">
-    <meta property="og:description" content="Dios Patria y Potsa">
-    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
+  <meta property="theme-color" content="#b0865d">
+  <meta property="og:site_name" content="Potsa">
+  <meta property="og:title" content="POTSA">
+  <meta property="og:description" content="Dios Patria y Potsa">
+  <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
 	<title>POTSA</title>
 
 </head>
@@ -29,12 +29,14 @@
 	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop></audio>
 	<audio id="music0" src="media/audio/music0.mp3" type="audio/mpeg" loop></audio>
 
-	<audio id="success_sfx_err" src="media/sfx/success_err1.mp3" type="audio/mpeg"></audio>
-	<audio id="success_sfx" src="media/sfx/success.mp3" type="audio/mpeg"></audio>
+	<audio id="success_sfx_err" src="media/audio/fx/success_err1.mp3" type="audio/mpeg"></audio>
+	<audio id="success_sfx" src="media/audio/fx/success.mp3" type="audio/mpeg"></audio>
 
-	<audio id="hit_sound_0" src="media/sfx/hit/0.mp3" type="audio/mpeg"></audio>
-	<audio id="hit_sound_1" src="media/sfx/hit/1.mp3" type="audio/mpeg"></audio>
-	<audio id="hit_sound_2" src="media/sfx/hit/2.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_0" src="media/audio/fx/hit/0.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_1" src="media/audio/fx/hit/1.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_2" src="media/audio/fx/hit/2.mp3" type="audio/mpeg"></audio>
+
+	<audio id="ambient_loop_0" src="media/audio/ambient/loop_1.mp3" type="audio/mpeg" loop></audio>
 </main>
 
 <script type="text/javascript">
@@ -55,6 +57,8 @@ hit_sound_volume = 0.8;
 hit_sound_0.volume = hit_sound_volume;
 hit_sound_1.volume = hit_sound_volume;
 hit_sound_2.volume = hit_sound_volume;
+
+const ambient_loop_0 = document.getElementById("ambient_loop_0");
 
 const potsa_confirm = document.getElementById('confirm_box');
 const html = document.documentElement;
@@ -105,9 +109,15 @@ function randomHitSound() {
 
 
 function goto_potsahtml() {
-	window.open('files/potsa.html', '_blank');
 	randomHitSound();
 	potsa_confirm.style.display = 'none';
+
+	setTimeout(function(){
+		music0.pause();
+		music0.currentTime = 0;
+		window.open('files/potsa.html', '_blank');
+		ambient_loop_0.play();
+	},1000); //wait a second to open 'potsa.html'
 }
 
 function potsa_trigger() {
@@ -123,6 +133,7 @@ function potsa_trigger() {
 		html.style.filter = "contrast(200%)";
 		music0.play();
 		setTimeout(function(){
+
 			potsa_confirm.style.display = 'block';
 			success_sfx.play();
 
@@ -177,7 +188,6 @@ document.addEventListener("keydown", (e) => {
     	} else {return;}
   	}
 });
-
 
 
 document.addEventListener('keydown', event =>  {
