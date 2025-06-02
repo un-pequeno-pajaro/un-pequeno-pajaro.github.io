@@ -9,7 +9,7 @@
     <meta property="og:site_name" content="Potsa">
     <meta property="og:title" content="POTSA">
     <meta property="og:description" content="Dios Patria y Potsa">
-    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god_x2.png">
+    <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
 	<title>POTSA</title>
 
 <style type="text/css">
@@ -23,97 +23,195 @@
 		background-image: url(media/potsa.png);
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
-		animation: bg_move 20s linear infinite;
 
 		cursor: pointer;
 	}
 
-@keyframes bg_move {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: -100% -100%;
-  }
-}
-
 	#frame {
 		z-index: 9999;
-		background-image: url(media/tvframe.png);
+		position: absolute;
+		bottom: 0;
 		height: 100%;
 		width: 100%;
-		bottom: 0;
-
 		background-repeat: round;
 		background-size: cover;
+		background-image: url(media/page/tvframe.png);
+	}
+	#tv-shadow {
+		z-index: 3;
 		position: absolute;
+		bottom: 0;
+		height: 100%;
+		width: 100%;
+		background-repeat: round;
+		background-size: cover;
+		background-image: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 100%);
 	}
 	#static-ov {
-		z-index: 9998;
+		z-index: 2;
 		position: absolute;
-		opacity: 20%;
-		background-image: url(media/gif/static.gif);
+		bottom: 0;
 		height: 100%;
 		width: 100%;
-		bottom: 0;
 		background-repeat: round;
 		background-size: cover;
-		position: absolute;
+		background-image: url(media/page/static.gif);
+		opacity: 20%;
 	}
 	main {
-		z-index: 9997;
+		z-index: 1;
 		padding-left: 5%;
 		padding-right: 5%;
 		padding-top: 4%;
 		padding-bottom: 4%;
+	}
+	#potsa_say {
+		z-index: 0;
+		color: red;
+		opacity: 80%;
+		font-family: "Lucida Console", "Courier New", monospace;
+		position: absolute;
+		margin-left: 35vw;
+		margin-top: 14.5vw;
+		/*
+		transform:translate(63vh, 10vw);
+		*/
+		font-size: 5vh;
 	}
 
 </style>
 </head>
 <body onclick="uneteanosotros()">
 <div id="frame"></div>
+<!--<div id="tv-shadow"></div>-->
 <div id="static-ov"></div>
 <main>
-	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop volume="50%"></audio>
+	<p id="potsa_say"></p>
+
+
+	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop></audio>
+	<audio id="music0" src="media/audio/music0.mp3" type="audio/mpeg" loop></audio>
+
+	<audio id="hit_sound_0" src="media/audio/hit/0.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_1" src="media/audio/hit/1.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_2" src="media/audio/hit/2.mp3" type="audio/mpeg"></audio>
 </main>
 
 <script type="text/javascript">
-var audio0 = document.getElementById("audio0");
-var audio1 = document.getElementById("audio1");
-var html = document.documentElement;
-var body = document.body;
-var potsa_triggered = false;
+
+const audio0 = document.getElementById("audio0");
+const music0 = document.getElementById("music0");
+
+music0.volume = 0.8;
+
+const hit_sound_0 = document.getElementById("hit_sound_0");
+const hit_sound_1 = document.getElementById("hit_sound_1");
+const hit_sound_2 = document.getElementById("hit_sound_2");
+
+hit_sound_volume = 0.8;
+
+hit_sound_0.volume = hit_sound_volume;
+hit_sound_1.volume = hit_sound_volume;
+hit_sound_2.volume = hit_sound_volume;
+
+const html = document.documentElement;
+const body = document.body;
+
+
+let unete_triggered = false;
+let unete_disabled = false;
 
 function uneteanosotros() {
-	if (potsa_triggered == false) {
+	if (unete_triggered == false & unete_disabled == false) {
 
 		audio0.play();
 		html.style.filter = "contrast(200%)";
 
-		potsa_triggered = true;
-	} else if (potsa_triggered == true) {
+		unete_triggered = true;
+	} else if (unete_triggered == true & unete_disabled == false) {
 
 		audio0.pause();
 		audio0.currentTime = 0;
 		html.style.filter = "contrast(100%)";
 
-		potsa_triggered = false;
+		unete_triggered = false;
+	} else {
+		return;
 	}
 }
 
-document.addEventListener('keyup', event => {
-  if (event.code === 'Space') {
+function randomHitSound() {
+	let soundNum = (Math.floor(Math.random() * 3));
+
+	if (soundNum == 0) {
+
+		hit_sound_0.load();
+		hit_sound_0.play();
+	} else if (soundNum == 1) {
+
+		hit_sound_1.load();
+		hit_sound_1.play();
+	} else if (soundNum == 2) {
+
+		hit_sound_2.load();
+		hit_sound_2.play();
+	} else {
+		return;
+	}
+}
+
+
+function potsa_trigger() {
+	unete_disabled = true;
+
+	html.style.filter = "contrast(200%)";
+	setTimeout(function(){
+		music0.play();
+
+		window.open('potsa.html', '_blank');
+	},500);
+}
+
+// POTSA
+const wd = "potsa";
+let currentIndex = 0;
+let potsa_triggered = false;
+
+document.addEventListener("keydown", (e) => {
+  	const key = e.key.toLowerCase();
+
+  	if (key.length === 1 && key.match(/[a-zñ]/) | potsa_triggered == false) {
+  	  	if (key === wd[currentIndex]) {
+  	    	console.log(`"${key}" (${currentIndex + 1}/${wd.length})`);
+
+  	    	const currentText = wd.substring(0, currentIndex + 1);
+  	    	document.getElementById('potsa_say').textContent = currentText;
+
+  	  		randomHitSound();
+  	    	currentIndex++;
+
+  	    	if (currentIndex === wd.length) {
+  	    		console.log(wd + " !!!!!!!");
+  	    	  	currentIndex = 0;
+  	    	  	potsa_triggered = true;
+
+  	    		potsa_trigger();
+  	    	}
+  	  	} else {
+  	   		currentIndex = 0;
+  	  	}
+  	}
+});
+
+
+document.addEventListener('keydown', event =>  {
+  if (event.code === 'Space' | event.code === 'Enter') {
     uneteanosotros();
   }
 });
 
-document.addEventListener('keyup', event => {
-  if (event.code === 'Enter') {
-    uneteanosotros();
-  }
-});
+window.onload = function() {body.focus()};
 
 </script>
-
 </body>
 </html>
