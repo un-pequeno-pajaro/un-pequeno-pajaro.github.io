@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link type="image/png" rel="icon" href="media/potsa.png">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
     <meta property="theme-color" content="#b0865d">
     <meta property="og:site_name" content="Potsa">
     <meta property="og:title" content="POTSA">
@@ -12,97 +14,37 @@
     <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
 	<title>POTSA</title>
 
-<style type="text/css">
-	html {
-		height: 100%;
-		overflow-y:hidden;
-	}
-	body {
-		height: 100%;
-		margin: 0;
-		background-image: url(media/potsa.png);
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-
-		cursor: pointer;
-	}
-
-	#frame {
-		z-index: 9999;
-		position: absolute;
-		bottom: 0;
-		height: 100%;
-		width: 100%;
-		background-repeat: round;
-		background-size: cover;
-		background-image: url(media/page/tvframe.png);
-	}
-	#tv-shadow {
-		z-index: 3;
-		position: absolute;
-		bottom: 0;
-		height: 100%;
-		width: 100%;
-		background-repeat: round;
-		background-size: cover;
-		background-image: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 100%);
-	}
-	#static-ov {
-		z-index: 2;
-		position: absolute;
-		bottom: 0;
-		height: 100%;
-		width: 100%;
-		background-repeat: round;
-		background-size: cover;
-		background-image: url(media/page/static.gif);
-		opacity: 20%;
-	}
-	main {
-		z-index: 1;
-		padding-left: 5%;
-		padding-right: 5%;
-		padding-top: 4%;
-		padding-bottom: 4%;
-	}
-	#potsa_say {
-		z-index: 0;
-		color: red;
-		opacity: 80%;
-		font-family: "Lucida Console", "Courier New", monospace;
-		position: absolute;
-		margin-left: 35vw;
-		margin-top: 14.5vw;
-		/*
-		transform:translate(63vh, 10vw);
-		*/
-		font-size: 5vh;
-	}
-
-</style>
 </head>
 <body onclick="uneteanosotros()">
 <div id="frame"></div>
-<!--<div id="tv-shadow"></div>-->
+<div id="tv-shadow"></div>
 <div id="static-ov"></div>
 <main>
 	<p id="potsa_say"></p>
-
+	<div class="center" id="confirm_box">Go to potsa.html ?<br>
+		<button id="accept_bttn" onclick="goto_potsahtml()">Yes</button>
+		<button id="accept_bttn" onclick="goto_potsahtml()">Yes !!</button>
+	</div>
 
 	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop></audio>
 	<audio id="music0" src="media/audio/music0.mp3" type="audio/mpeg" loop></audio>
 
-	<audio id="hit_sound_0" src="media/audio/hit/0.mp3" type="audio/mpeg"></audio>
-	<audio id="hit_sound_1" src="media/audio/hit/1.mp3" type="audio/mpeg"></audio>
-	<audio id="hit_sound_2" src="media/audio/hit/2.mp3" type="audio/mpeg"></audio>
+	<audio id="success_sfx_err" src="media/sfx/success_err1.mp3" type="audio/mpeg"></audio>
+	<audio id="success_sfx" src="media/sfx/success.mp3" type="audio/mpeg"></audio>
+
+	<audio id="hit_sound_0" src="media/sfx/hit/0.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_1" src="media/sfx/hit/1.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_2" src="media/sfx/hit/2.mp3" type="audio/mpeg"></audio>
 </main>
 
 <script type="text/javascript">
 
 const audio0 = document.getElementById("audio0");
 const music0 = document.getElementById("music0");
+const success_sfx_err = document.getElementById("success_sfx_err");
+const success_sfx = document.getElementById("success_sfx");
 
-music0.volume = 0.8;
+music0.volume = 0.6;
 
 const hit_sound_0 = document.getElementById("hit_sound_0");
 const hit_sound_1 = document.getElementById("hit_sound_1");
@@ -114,27 +56,28 @@ hit_sound_0.volume = hit_sound_volume;
 hit_sound_1.volume = hit_sound_volume;
 hit_sound_2.volume = hit_sound_volume;
 
+const potsa_confirm = document.getElementById('confirm_box');
 const html = document.documentElement;
 const body = document.body;
 
 
-let unete_triggered = false;
+let unete_on = false;
 let unete_disabled = false;
 
 function uneteanosotros() {
-	if (unete_triggered == false & unete_disabled == false) {
+	if (unete_on == false && unete_disabled == false) {
 
 		audio0.play();
 		html.style.filter = "contrast(200%)";
 
-		unete_triggered = true;
-	} else if (unete_triggered == true & unete_disabled == false) {
+		unete_on = true;
+	} else if (unete_on == true && unete_disabled == false) {
 
 		audio0.pause();
 		audio0.currentTime = 0;
 		html.style.filter = "contrast(100%)";
 
-		unete_triggered = false;
+		unete_on = false;
 	} else {
 		return;
 	}
@@ -161,15 +104,30 @@ function randomHitSound() {
 }
 
 
+function goto_potsahtml() {
+	window.open('files/potsa.html', '_blank');
+	randomHitSound();
+	potsa_confirm.style.display = 'none';
+}
+
 function potsa_trigger() {
+	if (unete_on == true) {uneteanosotros();}
 	unete_disabled = true;
 
-	html.style.filter = "contrast(200%)";
-	setTimeout(function(){
-		music0.play();
+	success_sfx_err.load();
+	success_sfx_err.play();
 
-		window.open('potsa.html', '_blank');
-	},500);
+	setTimeout(function(){
+		body.style.backgroundImage = "url('media/potsa_fly.gif')"
+		body.style.cursor = 'inherit';
+		html.style.filter = "contrast(200%)";
+		music0.play();
+		setTimeout(function(){
+			potsa_confirm.style.display = 'block';
+			success_sfx.play();
+
+		},60000); //timeout redirect 1 minute.
+	},1000); //timeout potsachanges 1 second.
 }
 
 // POTSA
@@ -178,30 +136,48 @@ let currentIndex = 0;
 let potsa_triggered = false;
 
 document.addEventListener("keydown", (e) => {
-  	const key = e.key.toLowerCase();
+  	let key = e.key.toLowerCase();
 
-  	if (key.length === 1 && key.match(/[a-zñ]/) | potsa_triggered == false) {
-  	  	if (key === wd[currentIndex]) {
-  	    	console.log(`"${key}" (${currentIndex + 1}/${wd.length})`);
+  	if (key.length === 1 && key.match(/[a-zñ]/) && potsa_triggered === false) {
+   		if (key === wd[currentIndex]) {
 
-  	    	const currentText = wd.substring(0, currentIndex + 1);
-  	    	document.getElementById('potsa_say').textContent = currentText;
+      		if (unete_on == true) {uneteanosotros();}
 
-  	  		randomHitSound();
-  	    	currentIndex++;
+      		if (currentIndex == 0) {
+      			body.style.backgroundImage = "url('media/potsa_god.png')";
 
-  	    	if (currentIndex === wd.length) {
-  	    		console.log(wd + " !!!!!!!");
-  	    	  	currentIndex = 0;
-  	    	  	potsa_triggered = true;
+      		} else if (currentIndex == 1) {
+      			body.style.backgroundImage = "url('media/potsa_free.png')";
 
-  	    		potsa_trigger();
-  	    	}
-  	  	} else {
-  	   		currentIndex = 0;
-  	  	}
+      		} else if (currentIndex == 2) {
+      			body.style.backgroundImage = "url('media/dpyPotsa.gif')";
+
+      		} else if (currentIndex == 3) {
+      			body.style.backgroundImage = "url('media/sebusca.jpg')";
+
+      		} else if (currentIndex == 4) {
+      			body.style.backgroundImage = "url('media/retrotsa.png')";
+      		}
+
+      		console.log(`"${key}" (${currentIndex + 1}/${wd.length})`);
+
+      		const currentText = wd.substring(0, currentIndex + 1);
+      		document.getElementById('potsa_say').textContent = currentText;
+
+      		randomHitSound();
+      		currentIndex++;
+
+      		if (currentIndex === wd.length) {
+        		console.log(wd + " !!!!!!!");
+        		currentIndex = 0;
+        		potsa_triggered = true;
+
+        		potsa_trigger();
+      		}
+    	} else {return;}
   	}
 });
+
 
 
 document.addEventListener('keydown', event =>  {
