@@ -107,8 +107,8 @@
 		border-bottom-color: gray;
 		border-right-color: gray;
 
-		width: 40%;
-		height: 30px;
+		width: 45%;
+		/*height: 30px;*/
 	}
 	#accept_bttn:hover {
 		cursor: pointer;

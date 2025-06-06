@@ -57,7 +57,6 @@ function potsa_trigger() {
 	if (unete_on == true) {uneteanosotros();}
 	unete_disabled = true;
 
-	randomHitSound();
 	success_sfx_err.load();
 	success_sfx_err.play();
 
@@ -73,7 +72,7 @@ function potsa_trigger() {
 			potsa_confirm.style.display = 'block';
 			success_sfx.play();
 
-		},60000); //timeout redirect 1 minute.
+		},60000); //timeout redirect 1 minute (60000).
 
 	},1000); //timeout potsachanges 1 second.
 }
@@ -120,7 +119,9 @@ document.addEventListener("keydown", (e) => {
         		currentIndex = 0;
         		potsa_triggered = true;
 
-        		potsa_trigger();
+        		setTimeout(function(){
+        			potsa_trigger();
+						},100); // potsa trigger delay after last key
       		}
     	} else {return;}
   	}
