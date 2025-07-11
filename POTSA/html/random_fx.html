@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>random potsa size</title>
+<style>
+	body {background-color: black;}
+	#potsa {
+		position: absolute;
+		width: 30%;
+	}
+</style>
+</head>
+<body>
+	<img id="potsa" src="../media/potsa.png">
+<script>
+const potsaIMG = document.getElementById("potsa");
+
+function randomNum(min,max) {return Math.floor(Math.random() * (max - min)) + min;}
+
+
+
+function randomthing() {
+  const num = randomNum(0,0);
+  const dir = randomNum(0,4);
+
+  const sides = ["top", "bottom", "left", "right"];
+
+  var i = randomNum(0,3);
+  var side = sides[i];
+
+
+  potsaIMG.style[side] = `${num}vw`;
+
+  console.log(`sides[${dir}]`);
+}
+
+function randomFilter() {
+	const fn = randomNum(5, 50); //max 250
+	const cssfilters = [
+			`blur(${fn}px)`,
+			`brightness(${fn}%)`,
+			`contrast(${fn}%)`,
+			`grayscale(${fn}%)`,
+			`hue-rotate(${fn}rad)`,
+			`invert(${fn}%)`,
+			`saturate(${fn}%)`,
+			`sepia(${fn}%)`
+	];
+	var i = randomNum(0,7);
+
+	potsaIMG.style.filter = cssfilters[i];
+	console.log(cssfilters[i]);
+
+}setInterval(randomFilter, 200); //random filter speed
+
+</script>
+</body>
+</html>

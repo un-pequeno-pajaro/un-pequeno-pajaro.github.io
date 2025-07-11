@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="darkreader-lock">
+	<link type="image/png" rel="icon" href="../media/potsaOff.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Potsa</title>
+<style>
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+	body {
+		margin: 0;
+		background-image: url(../media/potsa.png);
+		background-repeat: repeat;
+
+		animation: bg_move 200s linear infinite;
+
+		backdrop-filter: brightness(0.3) blur(5px);
+	}
+
+@keyframes bg_move {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: -10000px -10000px;
+  }
+}
+
+	img {
+		width: 230px;
+		margin: 10px;
+	}
+</style>
+</head>
+<body>
+	<div id="images">
+
+		<img src="../media/dpyPotsa.gif">
+		<img src="../media/potsa_god.png">
+		<img src="../media/potsa.png">
+		<img src="../media/potsa_jordan.png">
+		<img src="../media/potsa_fly.gif">
+
+		<img src="../media/ur_pfp.png">
+		<img src="../media/potsified.png">
+
+		<img src="../media/sebusca.jpg">
+
+		<img src="../media/brandonpotsiguez.png">
+		<img src="../media/potsa_free.png">
+
+		<img id="potsa_off" src="../media/potsaOff.png" onclick="potsaOff();">
+
+		<img src="../media/potsa_note.png">
+
+	</div>
+
+<div id="loaded_sounds">
+	<audio id="hit_sound_0" src="/POTSA/media/audio/fx/hit/0.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_1" src="/POTSA/media/audio/fx/hit/1.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_2" src="/POTSA/media/audio/fx/hit/2.mp3" type="audio/mpeg"></audio>
+</div>
+
+<script type="text/javascript">
+
+const potsa_off = document.getElementById("potsa_off");
+
+
+function randomHitSound() {
+	let soundNum = (Math.floor(Math.random() * 3));
+
+	if (soundNum == 0) {
+
+		hit_sound_0.load();
+		hit_sound_0.play();
+	} else if (soundNum == 1) {
+
+		hit_sound_1.load();
+		hit_sound_1.play();
+	} else if (soundNum == 2) {
+
+		hit_sound_2.load();
+		hit_sound_2.play();
+	} else {
+		return;
+	}
+}
+
+let potsaoff_on = false;
+function potsaOff() {
+	i = 0
+	if (potsaoff_on == false) {
+		randomHitSound();
+		potsa_off.src = "../media/hidden/mroff.png";
+		potsaoff_on = true;
+
+	} else if (potsaoff_on == true) {
+		randomHitSound();
+		potsa_off.src = "../media/potsaOff.png";
+		potsaoff_on = false
+	}
+}
+
+</script>
+</body>
+</html>

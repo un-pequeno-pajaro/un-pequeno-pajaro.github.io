@@ -6,13 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link type="image/png" rel="icon" href="media/potsa.png">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  	<link rel="stylesheet" type="text/css" href="style.css">
 
-  <meta property="theme-color" content="#b0865d">
-  <meta property="og:site_name" content="Potsa">
-  <meta property="og:title" content="POTSA">
-  <meta property="og:description" content="Dios Patria y Potsa">
-  <meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
+  	<meta property="theme-color" content="#b0865d">
+  	<meta property="og:site_name" content="Potsa">
+  	<meta property="og:title" content="POTSA">
+  	<meta property="og:description" content="Dios Patria y Potsa">
+  	<meta property="og:image" content="https://un-pequeno-pajaro.github.io/POTSA/media/potsa_god.png">
+
 	<title>POTSA</title>
 
 </head>
@@ -26,6 +27,9 @@
 		<button id="accept_bttn" onclick="goto_potsahtml()">Yes</button>
 		<button id="accept_bttn" onclick="goto_potsahtml()">Yes !!</button>
 	</div>
+</main>
+
+<div id="loaded_sounds">
 
 	<audio id="audio0" src="media/audio/0.mp3" type="audio/mpeg" loop></audio>
 	<audio id="music0" src="media/audio/music0.mp3" type="audio/mpeg" loop></audio>
@@ -36,36 +40,11 @@
 	<audio id="hit_sound_0" src="media/audio/fx/hit/0.mp3" type="audio/mpeg"></audio>
 	<audio id="hit_sound_1" src="media/audio/fx/hit/1.mp3" type="audio/mpeg"></audio>
 	<audio id="hit_sound_2" src="media/audio/fx/hit/2.mp3" type="audio/mpeg"></audio>
+	<audio id="hit_sound_denied" src="media/audio/fx/hit/denied.mp3" type="audio/mpeg"></audio>
 
 	<audio id="ambient_loop_0" src="media/audio/ambient/loop_1.mp3" type="audio/mpeg" loop></audio>
-</main>
 
-<script type="text/javascript">
-
-const audio0 = document.getElementById("audio0");
-const music0 = document.getElementById("music0");
-const success_sfx_err = document.getElementById("success_sfx_err");
-const success_sfx = document.getElementById("success_sfx");
-const ambient_loop_0 = document.getElementById("ambient_loop_0");
-
-audio0.volume = 0.7;
-music0.volume = 0.6;
-
-const hit_sound_0 = document.getElementById("hit_sound_0");
-const hit_sound_1 = document.getElementById("hit_sound_1");
-const hit_sound_2 = document.getElementById("hit_sound_2");
-
-hit_sound_vol = 0.8;
-
-hit_sound_0.volume = hit_sound_vol;
-hit_sound_1.volume = hit_sound_vol;
-hit_sound_2.volume = hit_sound_vol;
-
-const potsa_confirm = document.getElementById('confirm_box');
-const html = document.documentElement;
-const body = document.body;
-
-</script>
+</div>
 <script type="text/javascript" src="script.js"></script>
 </body>
 </html>

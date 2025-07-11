@@ -1,3 +1,29 @@
+const audio0 = document.getElementById("audio0");
+const music0 = document.getElementById("music0");
+const success_sfx_err = document.getElementById("success_sfx_err");
+const success_sfx = document.getElementById("success_sfx");
+const ambient_loop_0 = document.getElementById("ambient_loop_0");
+
+audio0.volume = 0.7;
+music0.volume = 0.6;
+
+const hit_sound_0 = document.getElementById("hit_sound_0");
+const hit_sound_1 = document.getElementById("hit_sound_1");
+const hit_sound_2 = document.getElementById("hit_sound_2");
+const hit_sound_err = document.getElementById("hit_sound_denied");
+
+hit_sound_vol = 0.8;
+
+hit_sound_0.volume = hit_sound_vol;
+hit_sound_1.volume = hit_sound_vol;
+hit_sound_2.volume = hit_sound_vol;
+hit_sound_err.volume = hit_sound_vol;
+
+
+const potsa_confirm = document.getElementById('confirm_box');
+const html = document.documentElement;
+const body = document.body;
+
 let unete_on = false;
 let unete_disabled = false;
 
@@ -48,7 +74,7 @@ function goto_potsahtml() {
 	setTimeout(function(){
 		music0.pause();
 		music0.currentTime = 0;
-		window.open('files/potsa.html', '_blank');
+		window.open('html/potsa.html', '_blank');
 		ambient_loop_0.play();
 	},1000); //wait a second to open 'potsa.html'
 }
@@ -123,7 +149,10 @@ document.addEventListener("keydown", (e) => {
         			potsa_trigger();
 						},100); // potsa trigger delay after last key
       		}
-    	} else {return;}
+    	} else {
+    			hit_sound_err.load();
+    			hit_sound_err.play();
+    	}
   	}
 });
 
