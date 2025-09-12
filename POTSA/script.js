@@ -2,7 +2,7 @@ const audio0 = document.getElementById("audio0");
 const music0 = document.getElementById("music0");
 const success_sfx_err = document.getElementById("success_sfx_err");
 const success_sfx = document.getElementById("success_sfx");
-const ambient_loop_0 = document.getElementById("ambient_loop_0");
+const ambient_loop = document.getElementById("ambient_loop");
 
 audio0.volume = 0.7;
 music0.volume = 0.6;
@@ -75,7 +75,7 @@ function goto_potsahtml() {
 		music0.pause();
 		music0.currentTime = 0;
 		window.open('html/potsa.html', '_blank');
-		ambient_loop_0.play();
+		ambient_loop.play();
 	},1000); //wait a second to open 'potsa.html'
 }
 
@@ -137,6 +137,7 @@ document.addEventListener("keydown", (e) => {
       		const currentText = wd.substring(0, currentIndex + 1);
       		document.getElementById('potsa_say').textContent = currentText;
 
+      		hit_sound_err.pause();
       		randomHitSound();
       		currentIndex++;
 
