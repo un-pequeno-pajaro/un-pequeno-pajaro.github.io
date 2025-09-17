@@ -6,9 +6,12 @@
 	<title>random potsa size</title>
 <style>
 	body {
+		font-family: Consolas;
 		background-color: black;
 		color: white;
 	}
+	button {cursor: pointer;}
+
 	#potsa {
 		width: 500px;
 	}
@@ -17,83 +20,115 @@
 	}
 
 	.slider {
+		margin-left: 0;
 		width: 500px;
-	}
-	.slider {
-  -webkit-appearance: none;
-  height: 10px;
-  border-radius: 5px;
-  opacity: 0.7;
-  margin-top: 10px;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+  	-webkit-appearance: none;
+  	height: 20px;
+  	border-radius: 0px; /*5px*/
+  	border:3.5px ridge darkgray;
+  	border-left-width: 0px;
+  	border-right-width: 0px;
+  	background-color: #666666;
+  	margin-top: 10px;
+  	-webkit-transition: .2s;
+  	transition: opacity .2s;
 	}
 	.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 20px;
-  border-radius: 0px;
-  cursor: pointer;
+  	-webkit-appearance: none;
+  	appearance: none;
+
+  	width: 13px;
+  	height: 17px;
+  	background-color: lightgray;
+  	border: 1px ridge darkgray;
+  	border-radius: 0px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+  	transition: 0;
+  	cursor: pointer;
 	}
 	.slider::-moz-range-thumb {
-  width: 15px;
-  height: 20px;
-  border-radius: 0px;
-  cursor: pointer;
+  	width: 13px;
+  	height: 17px;
+  	background-color: lightgray;
+  	border: 1px ridge darkgray;
+  	border-radius: 0px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+  	transition: 0;
+  	cursor: pointer;
+	}
+	.slider::-moz-range-thumb:hover{
+		background-color: white;
 	}
 
-	#sliderval{
+	input {
+		width: 80px;
+	}
+	#inputs {
+		width: 400px;
+		margin-top: 0;
+	}
+	#inputs p input {
 		display: inline-block;
+	}
+	#inputs p {
+		margin-bottom: -23px;
+	}
+
+	#fullscreenbtn {
+		background-color: red;
+		padding: 5px;
+		margin: 10px;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+	#fullscreenbtn:hover {
+		animation: alternate-colors 1s infinite;
+	}
+
+	@keyframes alternate-colors {
+		0% {background-color: yellow;}
+		25% {background-color: red;}
+		50% {background-color: yellow;}
+		75% {background-color: red;}
+		100% {background-color: yellow;}
 	}
 
 </style>
 </head>
 <body>
 	<img id="potsa" src="../media/potsa.png"><br>
-	<input type="range" min="0" max="500" value="200" class="slider" id="fxspeed">
-	<p id="sliderval">200</p>
-	<br>Range Min <input type="text" id="rangemin" value="-50">
-	<br>Range Max <input type="text" id="rangemax" value="200">
-
+	<div id="options">
+		<input type="range" min="0" max="500" value="250" class="slider" id="fxspeed">
+		<p id="sliderval">250</p>
+		<div id="inputs">
+			<p>Range Min <input type="text" id="min" value="-200"></p>
+			<br>
+			<p>Range Max <input type="text" id="max" value="200"></p>
+			<br><br>
+			<p>Multiplier (optional) <br><input type="text" id="multiplier" value="1"></p>
+		</div>
+		<br>
+		<button id="fullscreenbtn" onclick="fullscreen()" title="Permanent Fullscreen !!!">Fullscreen ⚠️</button>
+	</div>
 <script>
 const potsaIMG = document.getElementById("potsa");
+const slider = document.getElementById("fxspeed");
+const slider_num = document.getElementById('sliderval');
+const rangeMin = document.getElementById("min");
+const rangeMax = document.getElementById("max");
+
+let multiplier = document.getElementById("multiplier");
+multiplier.value = "1";
 
 function randomNum(min,max) {return Math.floor(Math.random() * (max - min)) + min;}
 
-
-
-function randomthing() {
-  const num = randomNum(0,0);
-  const dir = randomNum(0,4);
-
-  const sides = ["top", "bottom", "left", "right"];
-
-  var i = randomNum(0,3);
-  var side = sides[i];
-
-
-  potsaIMG.style[side] = `${num}vw`;
-
-  console.log(`sides[${dir}]`);
-}
-
-
-let rangeMin = document.getElementById("rangemin");
-let rangeMax = document.getElementById("rangemax");
-
-let slider = document.getElementById("fxspeed");
-let potsaSpeed = slider.value;
-
-slider.addEventListener("input", function(){
-	potsaSpeed = slider.value;
-	document.getElementById('sliderval').innerHTML = this.value;
-});
-
 function randomFilter() {
-	min = rangeMin.value;
-	max = rangeMax.value;
-	const fn = randomNum(min, max); //max 250
+	let min = parseInt(rangeMin.value);
+	let max = parseInt(rangeMax.value);
+	let fn = randomNum(min, max)*multiplier.value; //max 250
 	const cssfilters = [
 			`blur(${fn}px)`,
 			`brightness(${fn}%)`,
@@ -107,9 +142,51 @@ function randomFilter() {
 	var i = randomNum(0,7);
 
 	potsaIMG.style.filter = cssfilters[i];
-	console.log(cssfilters[i]);
+	//console.log(cssfilters[i]);
+}
 
-}setInterval(randomFilter, potsaSpeed); //random filter speed
+let filterLoop = setInterval(randomFilter, slider.value); //random filter speed
+
+slider.addEventListener("input", function(){
+	slider_num.innerHTML = this.value;
+
+	clearInterval(filterLoop);
+	filterLoop = setInterval(randomFilter, slider.value)
+});
+
+function fullscreenBrowser(elem) {
+	var el = document.documentElement,
+    rfs = el.requestFullscreen;
+	if(typeof rfs!="undefined" && rfs){
+  rfs.call(el);
+	}
+}
+
+function fullscreen() {
+	document.getElementById("options").style.display = "none";
+	document.body.style.margin = "0";
+
+	potsaIMG.style.position = "absolute";
+	potsaIMG.style.bottom = "0";
+	potsaIMG.style.height = "100%";
+	potsaIMG.style.width = "100%";
+
+	potsaIMG.style.pointerEvents = "none";
+	potsaIMG.style.userSelect = "none";
+
+	fullscreenBrowser();
+}
+
+function reset(){
+	slider.value = "250";
+	slider_num.innerHTML = "250";
+	rangeMin.value = "-200";
+	rangeMax.value = "200";
+	multiplier.value = "1";
+	clearInterval(filterLoop);
+	filterLoop = setInterval(randomFilter, slider.value);
+}
+reset();
 
 </script>
 </body>
