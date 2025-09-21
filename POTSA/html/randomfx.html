@@ -2,10 +2,12 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="darkreader-lock">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>random potsa effect</title>
 <style>
 	body {
+		margin: 10px;
 		font-family: Consolas;
 		background-color: black;
 		color: white;
@@ -22,41 +24,44 @@
 	.slider {
 		margin-left: 0;
 		width: 500px;
-  	-webkit-appearance: none;
-  	height: 20px;
-  	border-radius: 0px; /*5px*/
-  	border:3.5px ridge darkgray;
-  	border-left-width: 0px;
-  	border-right-width: 0px;
-  	background-color: #666666;
-  	margin-top: 10px;
-  	-webkit-transition: .2s;
-  	transition: opacity .2s;
+  		-webkit-appearance: none;
+  		height: 20px;
+  		border-radius: 0px; /*5px*/
+  		border:3.5px ridge darkgray;
+  		border-left-width: 0px;
+  		border-right-width: 0px;
+  		background-color: #666666;
+  		margin-top: 10px;
+  		-webkit-transition: .2s;
+  		transition: opacity .2s;
 	}
 	.slider::-webkit-slider-thumb {
-  	-webkit-appearance: none;
-  	appearance: none;
-
-  	width: 13px;
-  	height: 17px;
-  	background-color: lightgray;
-  	border: 1px ridge darkgray;
-  	border-radius: 0px;
+  		-webkit-appearance: none;
+  		appearance: none;
+  		width: 15px;
+  		height: 30px;
+  		background-color: lightgray;
+  		transition: 0s;
+  		border:none;
+  		border-radius: 0px;
 		padding-top: 5px;
 		padding-bottom: 5px;
-  	transition: 0;
-  	cursor: pointer;
+  		cursor: pointer;
 	}
 	.slider::-moz-range-thumb {
-  	width: 13px;
-  	height: 17px;
-  	background-color: lightgray;
-  	border: 1px ridge darkgray;
-  	border-radius: 0px;
+  		width: 14.5px;
+  		height: 20px;
+  		background-color: lightgray;
+		transition: 0s;
+  		border:none;
+  		/*border: 1px ridge darkgray;*/
+  		border-radius: 0px;
 		padding-top: 5px;
 		padding-bottom: 5px;
-  	transition: 0;
-  	cursor: pointer;
+  		cursor: pointer;
+	}
+	.slider::-webkit-slider-thumb:hover {
+		background-color: white;
 	}
 	.slider::-moz-range-thumb:hover{
 		background-color: white;
@@ -78,8 +83,13 @@
 
 	#fullscreenbtn {
 		background-color: red;
-		padding: 5px;
-		margin: 10px;
+		font-weight: bold;
+		font-size: 1.6vh;
+		padding: 0.5vh;
+		margin: 1vh;
+		height: 4vh;
+		width: 13vh;
+		border-width: 0.3vh;
 		position: absolute;
 		bottom: 0;
 		right: 0;
@@ -101,8 +111,8 @@
 <body>
 	<img id="potsa" src="../media/potsa.png"><br>
 	<div id="options">
-		<input type="range" min="0" max="500" value="250" class="slider" id="fxspeed">
-		<p id="sliderval">250</p>
+		<input type="range" min="0" max="700" class="slider" id="slider">
+		<p id="sliderval">-</p>
 		<div id="inputs">
 			<p>Range Min <input type="text" id="min" value="-200"></p>
 			<br>
@@ -115,16 +125,37 @@
 	</div>
 <script>
 const potsaIMG = document.getElementById("potsa");
-const slider = document.getElementById("fxspeed");
+const slider = document.getElementById("slider");
 const slider_num = document.getElementById('sliderval');
 const rangeMin = document.getElementById("min");
 const rangeMax = document.getElementById("max");
-
-let multiplier = document.getElementById("multiplier");
+const multiplier = document.getElementById("multiplier");
+const fullscreenBtn = document.getElementById("fullscreenbtn");
+let params = new URLSearchParams(location.search);
 multiplier.value = "1";
 
-function randomNum(min,max) {return Math.floor(Math.random() * (max - min)) + min;}
+function fullscreenBrowser() {
+	var el = document.documentElement,
+    rfs = el.requestFullscreen;
+	if(typeof rfs!="undefined" && rfs){
+  		rfs.call(el);
+	}
+}
 
+function fullscreen() {
+	document.getElementById("options").style.display = "none";
+	document.body.style.margin = "0";
+
+	potsaIMG.style.position = "absolute";
+	potsaIMG.style.bottom = "0";
+	potsaIMG.style.height = "100%";
+	potsaIMG.style.width = "100%";
+
+	potsaIMG.style.pointerEvents = "none";
+	potsaIMG.style.userSelect = "none";
+}
+
+function randomNum(min,max) {return Math.floor(Math.random() * (max - min)) + min;}
 function randomFilter() {
 	let min = parseInt(rangeMin.value);
 	let max = parseInt(rangeMax.value);
@@ -140,54 +171,61 @@ function randomFilter() {
 			`sepia(${fn}%)`
 	];
 	var i = randomNum(0,7);
-
 	potsaIMG.style.filter = cssfilters[i];
 	//console.log(cssfilters[i]);
 }
-
-let filterLoop = setInterval(randomFilter, slider.value); //random filter speed
-
-slider.addEventListener("input", function(){
-	slider_num.innerHTML = this.value;
-
-	clearInterval(filterLoop);
-	filterLoop = setInterval(randomFilter, slider.value)
-});
-
-function fullscreenBrowser(elem) {
-	var el = document.documentElement,
-    rfs = el.requestFullscreen;
-	if(typeof rfs!="undefined" && rfs){
-  rfs.call(el);
-	}
-}
-
-function fullscreen() {
-	document.getElementById("options").style.display = "none";
-	document.body.style.margin = "0";
-
-	potsaIMG.style.position = "absolute";
-	potsaIMG.style.bottom = "0";
-	potsaIMG.style.height = "100%";
-	potsaIMG.style.width = "100%";
-
-	potsaIMG.style.pointerEvents = "none";
-	potsaIMG.style.userSelect = "none";
-
-	fullscreenBrowser();
-}
-
-function reset(){
-	slider.value = "250";
-	slider_num.innerHTML = "250";
-	rangeMin.value = "-200";
-	rangeMax.value = "200";
-	multiplier.value = "1";
+//random filter speed
+let filterLoop = setInterval(randomFilter, slider.value);
+function reloadInterval(){
 	clearInterval(filterLoop);
 	filterLoop = setInterval(randomFilter, slider.value);
 }
-reset();
 
+function reset(){
+	slider.value = slider.max/2;
+	slider_num.innerHTML = slider.value;
+	rangeMin.value = "-200";
+	rangeMax.value = "200";
+	multiplier.value = "1";
+	reloadInterval();
+}
+
+function loadParameters(){
+	if (!params.toString() === '') {reset()} else {
+		if (params.has('full')) {fullscreen()};
+		if (params.has('mult')) {multiplier.value = params.get('mult')};
+		if (params.has('speed')) {
+
+			slider.value = params.get('speed');
+			slider_num.innerHTML = params.get('speed');
+
+			if (slider.value <= 0) {
+				slider.value = slider.min;
+				slider_num.innerHTML = slider.value;
+			} else if (slider.value >= 700) {
+				slider.value = slider.max;
+				slider_num.innerHTML = slider.value;
+			}
+
+		} else {slider_num.innerHTML = slider.value;}
+		if (params.has('max')) {rangeMax.value = params.get('max')};
+		if (params.has('min')) {rangeMin.value = params.get('min')};
+	reloadInterval();
+	}
+}
+
+//event listeners
+slider.addEventListener("input", function(){
+	slider_num.innerHTML = this.value;
+	reloadInterval();
+});
+
+fullscreenBtn.addEventListener("click", function(){
+	fullscreen();
+	fullscreenBrowser();
+});
+
+window.onload=(event)=>{loadParameters()};
 </script>
 </body>
 </html>
