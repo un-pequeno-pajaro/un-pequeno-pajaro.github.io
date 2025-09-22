@@ -83,6 +83,7 @@
 
 	#fullscreenbtn {
 		background-color: red;
+		border-color: slatelightblue;
 		font-weight: bold;
 		font-size: 1.6vh;
 		padding: 0.5vh;
@@ -208,6 +209,7 @@ function loadParameters(){
 			}
 
 		} else {slider_num.innerHTML = slider.value;}
+		if (params.has('replace_potsa')) {potsaIMG.src = params.get('replace_potsa')};
 		if (params.has('max')) {rangeMax.value = params.get('max')};
 		if (params.has('min')) {rangeMin.value = params.get('min')};
 	reloadInterval();
