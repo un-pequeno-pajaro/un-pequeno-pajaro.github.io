@@ -98,7 +98,7 @@ function potsa_trigger() {
 			potsa_confirm.style.display = 'block';
 			success_sfx.play();
 
-		},60000); //timeout redirect 1 minute (60000).
+		},Math.floor(Math.random()*(70000-60000)+60000)); //timeout redirect. random between 60000 & 70000 ms
 
 	},1000); //timeout potsachanges 1 second.
 }
