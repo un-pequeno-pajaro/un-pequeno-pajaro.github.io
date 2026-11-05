@@ -97,10 +97,10 @@
   		display: none;
 	}
 
-	#accept_bttn {
+	.accept_bttn {
 		text-align: center;
 		font-size: 20px;
-		margin-top: 10px;
+		margin-top: 35px;
 		margin-right: 5px;
 
 		background-color: #e7e7d6;
@@ -108,10 +108,12 @@
 		border-bottom-color: gray;
 		border-right-color: gray;
 
+		text-wrap: nowrap;
+
 		width: 45%;
 		/*height: 30px;*/
 	}
-	#accept_bttn:hover {
+	.accept_bttn:hover {
 		cursor: pointer;
 		border-color: gray;
 		border-bottom-color: white;
